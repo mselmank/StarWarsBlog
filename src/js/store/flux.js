@@ -1,42 +1,69 @@
+//import { CLIEngine } from "eslint";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			characters: [],
+			planets: [],
+			cars: [],
+			favorites: []
 		},
+
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+			getCharacterAPi: async () => {
+				const settings = {
+					method: "GET",
+					headers: {
+						"Content-Type": "aplication/json"
+					}
+				};
+				const response = await fetch("https://wwww.swapi.tech/api/people", settings);
+				const json = await response.json();
+
+				console.log("--JSON", json);
+
+				setStore({ characters: json.results });
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+
+			getPlanetsAPi: async () => {
+				const settings = {
+					method: "GET",
+					headers: {
+						"Content-Type": "aplication/json"
+					}
+				};
+				const responsePlanets = await fetch("https://wwww.swapi.tech/api/people", settings);
+				const json = await responsePlanets.json();
+
+				console.log("--JSON", json);
+
+				setStore({ planets: json.results });
 			},
-			changeColor: (index, color) => {
-				//get the store
+
+			getCarsAPi: async () => {
+				const settings = {
+					method: "GET",
+					headers: {
+						"Content-Type": "aplication/json"
+					}
+				};
+				const responseCars = await fetch("https://wwww.swapi.tech/api/people", settings);
+				const json = await responseCars.json();
+
+				console.log("--JSON", json);
+
+				setStore({ cars: json.results });
+			},
+
+			addItem: name => {
 				const store = getStore();
+				setStore({ favorites: [...store.favorites, name] });
+			},
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
+			removeItem: name => {
+				const store = getStore();
+				const newFavorites = store.favorites.filter(i => i !== name);
+				setStore({ favorites: newFavorites });
 			}
 		}
 	};
