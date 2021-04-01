@@ -1,47 +1,60 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import "../../styles/home.scss";
 import { Context } from "../store/appContext";
-import { link, useParams } from "react-router-dom";
+import { CharacterCard } from "../component/characterCard";
+import { PlanetCard } from "../component/planetCard";
+import { CarCard } from "../component/carCard";
+import { Container, Col, Card, Row } from "react-bootstrap";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	useEffect(() => {
 		actions.getCharacterAPi();
-		actions.getPlanetsAPI();
-		actions.getCars();
+		actions.getPlanetsAPi();
+		actions.getCarsAPi();
 	}, []);
 
 	return (
-		<div className="container">
-			<h1>characters</h1>
-			<div className="scrolling-wrapper" />
-			{store.characters.map((item, index) => {
-				return (
-					<div key={index} className="card" style={{ width: "18rem" }}>
-						<img
-							className="card-img-top"
-							src="https://logodownload.org/wp-content/uploads/2015/12/star-wars-logo-3-1.png"
-							alt="Card image cap"
-							style={{ width: "18rem" }}
-						/>
-						<div className="card-body">
-							<h6 className="card-title">{item.name}</h6>
-							<p className="card-text">
-								Gender: {item.gender} <br />
-								Hair Color: {item.hair_color} <br />
-								Eye-Color: {item.eye_color}
-							</p>
-							<Link to={`/characters/${index}`}>
-								<a className="btn btn-outline-primary">Learn more!</a>
-							</Link>
-							<a className="btn btn-outline-warning" onClick={() => actions.addItem(item.name)}>
-								<i className="far fa-heart" />
-							</a>
-						</div>
-					</div>
-				);
-			})}
-		</div>
+		<Container>
+			<Row>
+				<Col>
+					<h2 className="heading" style={{ color: "orangered" }}>
+						Characters
+					</h2>
+				</Col>
+			</Row>
+			<Row>
+				{store.characters.length > 0
+					? store.characters.map((element, index) => (
+							<CharacterCard key={index} id={++index} character={element} />
+					  ))
+					: ""}
+			</Row>
+			<Row>
+				<Col>
+					<h2 className="heading" style={{ color: "orangered" }}>
+						Planets
+					</h2>
+				</Col>
+			</Row>
+			<Row>
+				{store.planets.length > 0
+					? store.planets.map((element, index) => <PlanetCard key={index} id={++index} planet={element} />)
+					: ""}
+			</Row>
+			<Row>
+				<Col>
+					<h2 className="heading" style={{ color: "orangered" }}>
+						Vehicles
+					</h2>
+				</Col>
+			</Row>
+			<Row>
+				{store.cars.length > 0
+					? store.cars.map((element, index) => <CarCard key={index} id={++index} car={element} />)
+					: ""}
+			</Row>
+		</Container>
 	);
 };

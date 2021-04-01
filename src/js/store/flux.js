@@ -1,9 +1,8 @@
-//import { CLIEngine } from "eslint";
-
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			characters: [],
+			//people: [],
 			planets: [],
 			cars: [],
 			favorites: []
@@ -14,45 +13,44 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const settings = {
 					method: "GET",
 					headers: {
-						"Content-Type": "aplication/json"
+						"Content-Type": "application/json"
 					}
 				};
-				const response = await fetch("https://wwww.swapi.tech/api/people", settings);
+				const response = await fetch("https://www.swapi.tech/api/people", settings);
 				const json = await response.json();
+				const data = json;
 
 				console.log("--JSON", json);
 
-				setStore({ characters: json.results });
+				setStore({ characters: data.results });
 			},
 
 			getPlanetsAPi: async () => {
 				const settings = {
 					method: "GET",
 					headers: {
-						"Content-Type": "aplication/json"
+						"Content-Type": "application/json"
 					}
 				};
-				const responsePlanets = await fetch("https://wwww.swapi.tech/api/people", settings);
-				const json = await responsePlanets.json();
+				const response = await fetch("https://www.swapi.tech/api/planets", settings);
+				const json = await response.json();
+				const data = json;
 
-				console.log("--JSON", json);
-
-				setStore({ planets: json.results });
+				setStore({ planets: data.results });
 			},
 
 			getCarsAPi: async () => {
 				const settings = {
 					method: "GET",
 					headers: {
-						"Content-Type": "aplication/json"
+						"Content-Type": "application/json"
 					}
 				};
-				const responseCars = await fetch("https://wwww.swapi.tech/api/people", settings);
-				const json = await responseCars.json();
+				const response = await fetch("https://www.swapi.tech/api/vehicles", settings);
+				const json = await response.json();
+				const data = json;
 
-				console.log("--JSON", json);
-
-				setStore({ cars: json.results });
+				setStore({ cars: data.results });
 			},
 
 			addItem: name => {
